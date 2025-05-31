@@ -1,0 +1,42 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: power-find-api-gateway
+
+  cloud:
+    gateway:
+      routes:
+
+        - id: location-route
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/location/**
+          filters:
+            - StripPrefix=2
+            - RewritePath=/location(?<segment>/?.*), /public/location${segment}
+
+        - id: powerbank-route
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/powerbank/**
+          filters:
+            - StripPrefix=2
+            - RewritePath=/powerbank(?<segment>/?.*), /public/powerbank${segment}
+
+management:
+  endpoints:
+    web:
+      base-path: /manage
+      exposure:
+        include: gateway,health,prometheus,loggers
+
+logging:
+  level:
+    root: INFO
+    com.bostongene: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.filter.headers.observation: INFO
+    org.springframework.cloud.gateway.filter.GatewayMetricsFilter: INFO
+    reactor.netty.resources.PooledConnectionProvider: INFO
