@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: power-gateway
+    environment:
+      POSTGRES_DB: power-gateway
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - power-gateway:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  power-gateway:

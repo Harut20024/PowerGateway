@@ -2,8 +2,14 @@ server:
   port: 8081
 
 spring:
-  application:
-    name: power-find-api-gateway
+  liquibase:
+    change-log: classpath:/liquibase/master.xml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/power-gateway
+    username: user
+    password: pass
+    driver-class-name: org.postgresql.Driver
 
   cloud:
     gateway:

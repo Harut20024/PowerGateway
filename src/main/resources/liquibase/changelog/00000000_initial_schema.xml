@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="harut.tarzyan">
+        <createTable tableName="api_keys">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="key" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(50)" defaultValue="user"/>
+        </createTable>
+
+        <insert tableName="api_keys">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="key" value="user-key-xyz-123"/>
+            <column name="username" value="user1"/>
+            <column name="role" value="user"/>
+        </insert>
+
+        <insert tableName="api_keys">
+            <column name="id" valueComputed="gen_random_uuid()"/>
+            <column name="key" value="admin-key-abc-456"/>
+            <column name="username" value="admin1"/>
+            <column name="role" value="admin"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
